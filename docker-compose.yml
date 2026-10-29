@@ -1,0 +1,32 @@
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: chamados_ifrn
+      POSTGRES_USER: chamados
+      POSTGRES_PASSWORD: chamados_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chamados -d chamados_ifrn"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/chamados_ifrn
+      DB_USERNAME: chamados
+      DB_PASSWORD: chamados_dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

@@ -1,0 +1,19 @@
+### Listar categorias
+GET http://localhost:8080/categorias
+Accept: application/json
+
+
+### Buscar categoria de ID 1
+GET http://localhost:8080/categorias/1
+Accept: application/json
+
+
+### Criar categoria
+POST http://localhost:8080/categorias
+Content-Type: application/json
+
+{
+  "nome": "Impressoras",
+  "descricao": "Problemas com impressoras e equipamentos de impressão",
+  "setorId": 1
+}
